@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Animação Coração</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Mensagem inicial -->
+  <div id="intro">
+    <p>Para Laryssa (a menina mais perfeita do universo existente), por favor 💖</p>
+    <button id="startBtn">Começar</button>
+  </div>
+
+  <!-- Coração -->
+  <div class="container" id="heartContainer">
+    <div class="text" id="loveText">Eu te amo</div>
+  </div>
+
+  <script>
+    const container = document.getElementById('heartContainer');
+    const text = document.getElementById('loveText');
+    const intro = document.getElementById('intro');
+    const startBtn = document.getElementById('startBtn');
+    const numDots = 300;
+
+    function heartCoordinates(t) {
+      const x = 16 * Math.pow(Math.sin(t), 3);
+      const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+      return { x: x * 10, y: -y * 10 };
+    }
+
+    function startAnimation() {
+      intro.style.display = 'none';
+
+      for (let i = 0; i < numDots; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+
+        const startX = Math.random() * 400;
+        const startY = Math.random() * 400;
+
+        const t = Math.random() * 2 * Math.PI;
+        const { x, y } = heartCoordinates(t);
+
+        dot.style.left = `${startX}px`;
+        dot.style.top = `${startY}px`;
+        container.appendChild(dot);
+
+        void dot.offsetWidth;
+
+        setTimeout(() => {
+          dot.style.transition = 'all 2s ease-out';
+          dot.style.left = `${200 + x}px`;
+          dot.style.top = `${200 + y}px`;
+        }, Math.random() * 1000);
+      }
+
+      setTimeout(() => {
+        text.classList.add('show');
+      }, 2500);
+    }
+
+    startBtn.addEventListener('click', startAnimation);
+  </script>
+</body>
+</html>
